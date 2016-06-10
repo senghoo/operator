@@ -11,7 +11,9 @@ class T:
         self.template = loader.load(tmp)
 
     def __call__(self, func):
-        def __wrap__(*args, **kwargs):
-            ret = func(*args, **kwargs)
-            return self.template.generate(**ret)
+        thiz = self
+
+        def __wrap__(self, *args, **kwargs):
+            ret = func(self, *args, **kwargs)
+            self.write(thiz.template.generate(**ret or {}))
         return __wrap__
