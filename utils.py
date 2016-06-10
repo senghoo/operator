@@ -1,9 +1,12 @@
 import os
+import functools
 from tornado import template
 
-ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
+make_path = functools.partial(os.path.join, ROOT_PATH)
 
-loader = template.Loader(os.path.join(ROOT_DIR, "template"))
+
+loader = template.Loader(make_path("template"))
 
 
 class T:
