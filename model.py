@@ -1,12 +1,13 @@
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-from utils import make_path
-
-db_path = make_path("db.sqlite")
 
 Base = declarative_base()
-engine = create_engine("sqlite://{0}".format(db_path))
+engine = create_engine("sqlite:///db.sqlite")
+session_factory = sessionmaker(bind=engine, autocommit=False,
+                               autoflush=True, expire_on_commit=False)
+Session = scoped_session(session_factory)
 
 
 class TextMessage(Base):
@@ -14,3 +15,6 @@ class TextMessage(Base):
     id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
     sender = Column(String(64))
     content = Column(String(512))
+
+
+Base.metadata.create_all(engine)

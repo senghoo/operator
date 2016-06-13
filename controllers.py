@@ -1,10 +1,8 @@
 import tornado.web
 
-from utils import T, make_path
+from utils import T
 
-routes = [
-    (r"/static/(.*)", tornado.web.StaticFileHandler, {"path": make_path("static")}),
-]
+routes = []
 
 
 class R:
@@ -16,8 +14,16 @@ class R:
         return cls
 
 
+class BaseHandler(tornado.web.RequestHandler):
+    @property
+    def db(self):
+        return self.application.db
+
+
 @R("/")
-class MainHandler(tornado.web.RequestHandler):
+class MainHandler(BaseHandler):
     @T("index.html")
     def get(self):
-        return
+        return{
+            'name': 'world!!'
+        }
