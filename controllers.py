@@ -27,3 +27,9 @@ class MainHandler(BaseHandler):
         return{
             'name': 'world!!'
         }
+
+@R("/sms")
+class SmsHandler(BaseHandler):
+    @T("sms.html")
+    def get(self):
+        return {}
