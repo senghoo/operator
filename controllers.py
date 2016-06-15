@@ -1,6 +1,7 @@
 import tornado.web
 
 from utils import T
+import model
 
 routes = []
 
@@ -32,4 +33,6 @@ class MainHandler(BaseHandler):
 class SmsHandler(BaseHandler):
     @T("sms.html")
     def get(self):
-        return {}
+        return {
+            'messages': model.TextMessage.get_all()
+        }

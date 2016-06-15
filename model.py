@@ -16,5 +16,9 @@ class TextMessage(Base):
     sender = Column(String(64))
     content = Column(String(512))
 
+    @classmethod
+    def get_all(cls):
+        return Session().query(cls).all()
+
 
 Base.metadata.create_all(engine)
