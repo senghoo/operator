@@ -1,3 +1,4 @@
+import logging
 from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -8,6 +9,9 @@ engine = create_engine("sqlite:///db.sqlite")
 session_factory = sessionmaker(bind=engine, autocommit=False,
                                autoflush=True, expire_on_commit=False)
 Session = scoped_session(session_factory)
+
+
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 class TextMessage(Base):
@@ -22,3 +26,4 @@ class TextMessage(Base):
 
 
 Base.metadata.create_all(engine)
+
