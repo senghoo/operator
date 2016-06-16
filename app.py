@@ -6,9 +6,13 @@ from tornado.options import define, options
 import controllers
 from utils import make_path
 from model import engine, Session
+from gsm import GSM
 
 define("port", default=8888, type=int)
-define("host", default="0.0.0.0" )
+define("host", default="0.0.0.0")
+define("gsm_port", default="/dev/ttyAMA0")
+define("gsm_baudrate", default=115200, type=int)
+define("gsm_pin", default=None)
 
 
 class Application(tornado.web.Application):
@@ -20,6 +24,7 @@ class Application(tornado.web.Application):
         )
         tornado.web.Application.__init__(self, controllers.routes, **settings)
         self.db = Session
+        self.sms = GSM(options.gsm_port, options.gsm_baudrate, options.gsm_pin)
 
 if __name__ == "__main__":
     options.parse_command_line()
