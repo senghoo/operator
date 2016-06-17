@@ -22,7 +22,7 @@ class GSM(object):
         logger.info(sms_receive_log_template.format(sms.number,
                                                     sms.time, sms.text))
         for callback in self.sms_callbacks:
-            tornado.ioloop.IOLoop.add_callback(callback, sms)
+            tornado.ioloop.IOLoop.instance().add_callback(callback, sms)
 
     def add_sms_callback(self, callback):
         self.sms_callbacks.append(callback)
