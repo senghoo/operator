@@ -26,6 +26,7 @@ class Application(tornado.web.Application):
         self.db = Session
         self.sms = GSM(options.gsm_port, options.gsm_baudrate, options.gsm_pin)
         self.sms.add_sms_callback(TextMessage.save_sms)
+        self.sms.connect(options.gsm_pin)
 
 if __name__ == "__main__":
     options.parse_command_line()
