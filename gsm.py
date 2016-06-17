@@ -1,6 +1,9 @@
+import logging
 import tornado.ioloop
 from gsmmodem.modem import GsmModem
 
+logger = logging.getLogger("GSM")
+sms_receive_log_template = u'== SMS message received ==\nFrom: {0}\nTime: {1}\nMessage:\n{2}\n'
 
 class GSM(object):
     def __init__(self, port, baudrate, pin=None):
@@ -16,6 +19,8 @@ class GSM(object):
         self.modem.connect(self.pin)
 
     def sms_callback(self, sms):
+        logger.info(sms_receive_log_template.format(sms.number,
+                                                    sms.time, sms.text))
         for callback in self.sms_callbacks:
             tornado.ioloop.IOLoop.add_callback(callback, sms)
 

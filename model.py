@@ -1,5 +1,6 @@
 import logging
-from sqlalchemy import create_engine, Column, String, Integer, ForeignKey
+from sqlalchemy import create_engine, Column, String, Integer, DateTime,\
+    ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -19,10 +20,18 @@ class TextMessage(Base):
     id = Column(Integer, nullable=False, autoincrement=True, primary_key=True)
     sender = Column(String(64))
     content = Column(String(512))
+    time = Column(DateTime)
 
     @classmethod
     def get_all(cls):
         return Session().query(cls).all()
+
+    @classmethod
+    def save_sms(cls, sms):
+        n = TextMessage(sender=sms.number, content=sms.text, time=sms.time)
+        session = Session()
+        session.add(n)
+        session.commit()
 
 
 Base.metadata.create_all(engine)
