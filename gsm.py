@@ -26,3 +26,6 @@ class GSM(object):
 
     def add_sms_callback(self, callback):
         self.sms_callbacks.append(callback)
+
+    def process_stored_sms(self, delete=False):
+        self.modem.processStoredSms()

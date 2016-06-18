@@ -24,8 +24,12 @@ class Application(tornado.web.Application):
         )
         tornado.web.Application.__init__(self, controllers.routes, **settings)
         self.db = Session
+        self.init_gsm()
+
+    def init_gsm(self):
         self.gsm = GSM(options.gsm_port, options.gsm_baudrate, options.gsm_pin)
         self.gsm.add_sms_callback(TextMessage.save_sms)
+        self.gsm.process_stored_sms()
         self.gsm.run()
 
 if __name__ == "__main__":
