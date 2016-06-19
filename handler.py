@@ -14,7 +14,7 @@ class IFTTT(object):
         self.logger = logging.getLogger("ifttt")
 
     def url(self, event):
-        return 'https://maker.ifttt.com/trigger/{0}/with/key/{1}'.format(self.key, event)
+        return 'https://maker.ifttt.com/trigger/{0}/with/key/{1}'.format(event, self.key)
 
     def event(self, event, value1="", value2="", value3=""):
         try:
@@ -30,7 +30,7 @@ class IFTTT(object):
             self.logger.error("HTTP Request failed")
 
     def sms_callback(self, sms):
-        self.event("sms_received", sms.number, sms.text, sms.time)
+        self.event("sms_received", sms.number, sms.text, sms.time.strftime("%Y-%m-%d %H:%M:%S"))
 
 
 def init_handles(gsm):

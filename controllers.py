@@ -26,7 +26,8 @@ class MainHandler(BaseHandler):
     @T("index.html")
     def get(self):
         return{
-            'name': 'world!!'
+            'signal': 80,
+            'network_name': 'China-Unicom'
         }
 
 @R("/sms")

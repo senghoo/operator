@@ -1,3 +1,4 @@
+import os
 import logging
 import tornado.ioloop
 import tornado.web
@@ -29,6 +30,8 @@ class Application(tornado.web.Application):
         self.init_gsm()
 
     def init_gsm(self):
+        if not os.path.exists(options.gsm_port):
+            return
         self.gsm = GSM(options.gsm_port, options.gsm_baudrate, options.gsm_pin)
         init_handles(self.gsm)
         self.gsm.run()
